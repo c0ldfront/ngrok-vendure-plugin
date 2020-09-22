@@ -1,4 +1,4 @@
-import { Logger, Type, VendurePlugin } from '@vendure/core';
+import { Logger, OnVendureBootstrap, OnVendureClose, Type, VendurePlugin } from '@vendure/core';
 
 import { loggerCtx } from './constants';
 import ngrok, { INgrokOptions } from 'ngrok';
@@ -22,7 +22,7 @@ import ngrok, { INgrokOptions } from 'ngrok';
  * ```
  */
 @VendurePlugin({})
-export class NgrokPlugin {
+export class NgrokPlugin implements OnVendureBootstrap, OnVendureClose {
     private static options: INgrokOptions;
 
     static init(options: INgrokOptions): Type<NgrokPlugin> {
@@ -47,7 +47,7 @@ export class NgrokPlugin {
         }
     }
 
-    async onVendureClose() {
+    async onVendureClose(): Promise<void> {
         try {
             await ngrok.disconnect();
             await ngrok.kill();

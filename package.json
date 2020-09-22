@@ -4,10 +4,14 @@
   "description": "A vendure io ngrok tunnel plugin.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "repository": "git@github.com:c0ldfront/ngrok-vendure-plugin.git",
-  "files": [
-    "lib/**/*"
-  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/c0ldfront/ngrok-vendure-plugin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/c0ldfront/ngrok-vendure-plugin/issues"
+  },
+  "homepage": "https://github.com/c0ldfront/ngrok-vendure-plugin/blob/master/README.md",
   "author": "David Mydlarz <dcmydlarz@gmail.com>",
   "license": "MIT",
   "private": false,
@@ -33,5 +37,8 @@
   },
   "dependencies": {
     "ngrok": "^3.3.0"
-  }
+  },
+  "files": [
+    "lib/**/*"
+  ]
 }
