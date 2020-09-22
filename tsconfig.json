@@ -18,8 +18,5 @@
     "newLine": "LF",
     "declaration": true,
     "outDir": "./lib"
-  },
-  "files": [
-    "./index.ts"
-  ]
+  }
 }
