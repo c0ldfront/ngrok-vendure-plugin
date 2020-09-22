@@ -1,9 +1,3 @@
 node_modules
 .idea
 /lib
-
-src/e2e/__data__
-
-dev-server/__data__
-dev-server/static
-dev-server/admin-ui

@@ -1,25 +1,101 @@
-# Vendure Plugin Template
+# Ngrok VendureIO Plugin
 
-This is a template for a plugin for the [Vendure e-commerce framework](https://www.vendure.io/).
+This is a plugin for the [Vendure e-commerce framework](https://www.vendure.io/). It allows establishing a tunnel with [ngrok](https://ngrok.com) service using the [npm]((https://www.npmjs.com/package/ngrok)) package.   
 
-It is intended for plugins which are to be **distributed as npm packages**, either publicly or privately. If you are building a one-off plugin for a specific project, it probably makes more sense to simply nest those plugins into the project source, as is demonstrated by the [real-world-vendure folder structure](https://github.com/vendure-ecommerce/real-world-vendure)
+This plugin is a work in progress and if there are any bugs found report them under issues.
 
-Further information on how Vendure plugins can be used can be found in the [vendure.io Plugins documentation](https://www.vendure.io/docs/plugins/).
+#### Todo
+- [ ] complete readme
+- [ ] add in unit testing
+- [ ] code cleanup
 
-## e2e Testing
+## Usage
 
-See `src/e2e` for details, run tests with:
-
-```bash
-yarn test
+VendureConfig
+```
+ * export const config: VendureConfig = {
+ *   //...
+ *   plugins: [
+ *     NgrokPlugin.init({
+ *          authtoken: 'NGROK_AUTHTOKEN',
+ *          addr: '3000',
+ *          region: 'us',
+ *          hostname: 'shop.vendure.io'
+ *     }),
+ *   ]
+ * }
 ```
 
-## GraphQL Codegen
+Acceptable ngrok options
+```
+interface INgrokOptions {
+    /**
+     * Other "custom", indirectly-supported ngrok process options.
+     *
+     * @see {@link https://ngrok.com/docs}
+     */
+    [customOption: string]: any;
 
-This repository can automatically generate GraphQL types for use in the plugin code (see `src/e2e/plugin.e2e-spec.ts`).  To generate the types, ensure the development server is running, and use the command:
+    /**
+     * The tunnel type to put in place.
+     *
+     * @default 'http'
+     */
+    proto?: 'http' | 'tcp' | 'tls';
 
-```bash
-yarn dev:generate-types
+    /**
+     * Port or network address to redirect traffic on.
+     *
+     * @default opts.port || opts.host || 80
+     */
+    addr?: string | number;
+
+    /**
+     * HTTP Basic authentication for tunnel.
+     *
+     * @default opts.httpauth
+     */
+    auth?: string;
+
+    /**
+     * Reserved tunnel name (e.g. https://alex.ngrok.io)
+     */
+    subdomain?: string;
+
+    /**
+     * Your authtoken from ngrok.com
+     */
+    authtoken?: string;
+
+    /**
+     * One of ngrok regions.
+     * Note: region used in first tunnel will be used for all next tunnels too.
+     *
+     * @default 'us'
+     */
+    region?: 'us' | 'eu' | 'au' | 'ap' | 'sa' | 'jp' | 'in';
+
+    /**
+     * Custom path for ngrok config file.
+     */
+    configPath?: string;
+
+    /**
+     * Custom binary path, eg for prod in electron
+     */
+    binPath?: (defaultPath: string) => string;
+
+    /**
+     * Callback called when ngrok logs an event.
+     */
+    onLogEvent?: (logEventMessage: string) => any;
+
+    /**
+     * Callback called when session status is changed.
+     * When connection is lost, ngrok will keep trying to reconnect.
+     */
+    onStatusChange?: (status: 'connected' | 'closed') => any;
+}
 ```
 
 ## Linting
@@ -28,36 +104,4 @@ This repository uses [eslint](https://eslint.org/) & [Prettier](https://prettier
 
 ```bash
 yarn lint:fix
-```
-
-## Admin UI
-
-This repository also implements a basic Admin UI extension, which displays and allows editing of the `Example` entity.  These UI screens make use of the `BaseList`, `BaseDetail`, and `BaseResolver` classes, which are helpful for handling CRUD operations.
-
-## Development Server
-
-A development server is configured in the `dev-server` folder, using [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/) to spin up a Postgres database, as well as a server and worker.  This is used to test the plugin during development.
-
-To start the server, run:
-
-```bash
-yarn dev:run
-```
-
-To populate or reset the database, run the following command:
-
-```bash
-yarn dev:populate
-```
-
-To restart the server (only) after a change, use the following command:
-
-```bash
-yarn dev:restart
-```
-
-Note: The Docker containers must be rebuilt when updating dependencies.  Use the following command:
-
-```bash
-yarn dev:rebuild
 ```
