@@ -1,5 +1,5 @@
 {
-  "name": "ngrok-vendure-plugin",
+  "name": "@c0ldfront/ngrok-vendure-plugin",
   "version": "1.0.0",
   "description": "A vendure io ngrok tunnel plugin.",
   "main": "lib/index.js",
