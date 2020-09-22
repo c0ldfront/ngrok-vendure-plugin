@@ -1,6 +1,6 @@
 {
   "name": "ngrok-vendure-plugin",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A vendure io ngrok tunnel plugin.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -17,6 +17,7 @@
   "private": false,
   "scripts": {
     "build": "rimraf lib && tsc",
+    "prepublishOnly": "yarn run build",
     "lint:fix": "eslint ./src/**/*.ts --fix"
   },
   "devDependencies": {
@@ -37,6 +38,9 @@
   },
   "dependencies": {
     "ngrok": "^3.3.0"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   },
   "files": [
     "lib/**/*"
